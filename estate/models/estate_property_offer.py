@@ -1,3 +1,4 @@
+
 from odoo import models, api, fields, _
 from datetime import timedelta
 from odoo.exceptions import UserError
@@ -41,10 +42,12 @@ class EstatePropertyOffer(models.Model):
         readonly=False,
     )
 
+
     property_type_id = fields.Many2one(
         string='Property Type',
         related='property_id.property_type',
     )
+
     
     @api.depends('validity')
     def _compute_deadline(self):
@@ -54,6 +57,7 @@ class EstatePropertyOffer(models.Model):
     def _inverse_validity(self):
         for record in self:
             record.validity = (record.date_deadline - record.create_date.date()).days
+
 
     def action_offer_accept(self):
         self.ensure_one()
