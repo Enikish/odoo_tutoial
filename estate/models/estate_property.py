@@ -83,3 +83,27 @@ class EstateProperty(models.Model):
         inverse_name='property_id',
     )
 
+    total_area = fields.Float(
+        string='Total Area',
+        compute='_sum_total_area',
+        readonly=True,
+    )
+    @api.depends('living_area','garden_area')
+    def _sum_total_area(self):
+        for record in self:
+            record.total_area = record.living_area + record.garden_area
+
+    best_price = fields.Float(
+        string='Best Price',
+        compute='_compute_best_price',
+        readonly=True,
+    )
+    @api.depends('property_offer_ids')
+    def _compute_best_price(self):
+        for record in self:
+            if record.property_offer_ids:
+                record.best_price = max(record.property_offer_ids.mapped('price'))
+            else:
+                record.best_price = 0.0
+
+    
