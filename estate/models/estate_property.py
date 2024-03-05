@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 
 GARDEN_ORIENTATION = [('north', 'North'),
                       ('south', 'South'),
@@ -106,4 +106,25 @@ class EstateProperty(models.Model):
             else:
                 record.best_price = 0.0
 
+    @api.onchange('garden')
+    def _onchange_garden(self):
+        self.ensure_one()
+        if self.garden and not self.garden_area:
+            self.garden_area = 10
+            self.garden_orientation = 'north'
+        elif self.garden:
+            self.garden_orientation = 'north'
+        elif not self.garden:
+            self.garden_area = 0
+            self.garden_orientation = None
+
+    @api.onchange('garden_area','living_area')
+    def _onchange_area(self):
+        self.ensure_one()
+        if self.garden_area < 0 or self.living_area < 0:
+            return {'warning': {
+                'title':_('Warning'),
+                'message':('Please check your area option.')
+            }}
+            
     
