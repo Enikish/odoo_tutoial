@@ -30,6 +30,7 @@
             <form string="Offers">
                 <sheet>
                     <group>
+                        <field name="create_date" invisible="True"/>
                         <field name="price"/>
                         <field name="partner_id"/>
                         <field name="status"/>

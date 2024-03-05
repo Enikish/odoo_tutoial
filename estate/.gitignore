@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 *.py[co]
 *.pyc
 __pycache__/
 
 .*
 !.gitignore
+=======
+*.pyc
+>>>>>>> 3fa6ec6 (compute&inverse)
