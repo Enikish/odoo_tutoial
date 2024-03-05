@@ -1,1 +1,2 @@
-estate/**/*.pyc
+*.py[co]
+__pycache__/
