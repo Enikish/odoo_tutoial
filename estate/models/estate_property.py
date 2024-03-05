@@ -2,6 +2,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools.float_utils import float_compare, float_is_zero
 
+
 GARDEN_ORIENTATION = [
     ('north', 'North'),
     ('south', 'South'),
@@ -166,4 +167,7 @@ class EstateProperty(models.Model):
         for record in self:
             if record.state not in ('new', 'canceled'):
                 raise UserError(_('Can not delete the record with state%s' % record.state))
-            
+            return {'warning': {
+                'title':_('Warning'),
+                'message':('Please check your area option.')
+            }}
