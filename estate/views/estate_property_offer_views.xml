@@ -6,6 +6,8 @@
         <field name="view_mode">tree,form</field>
     </record>
 
+    <menuitem id="menu_estate_offer" name="Offers" parent="estate_setting_menu"/>
+
     <record id="estate_property_offer_tree_view" model="ir.ui.view">
         <field name="name">estate.property.offer.tree.view</field>
         <field name="model">estate.property.offer</field>
@@ -27,7 +29,6 @@
             <form string="Offers">
                 <sheet>
                     <group>
-                        <field name="create_date" invisible="True"/>
                         <field name="price"/>
                         <field name="partner_id"/>
                         <field name="status"/>
