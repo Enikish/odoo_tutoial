@@ -10,6 +10,9 @@ STATUS = [
 class EstatePropertyOffer(models.Model):
     _name = 'estate.property.offer'
     _description = 'Estate Property Offer'
+    _sql_constraints = [
+        ('check_price', 'CHECK(price >= 0)', 'Price must be positive.'),
+    ]
 
     price = fields.Integer(string='Price')
     partner_id = fields.Many2one(
