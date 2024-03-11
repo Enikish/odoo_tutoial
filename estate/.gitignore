@@ -4,5 +4,6 @@ __pycache__/
 .*
 !.gitignore
 estate/**/*.pyc
+estate/**/__pycache__/
 
 
