@@ -1,6 +1,6 @@
 *.py[co]
-__pycache__/
 *.pyc
+__pycache__/
 
 .*
 !.gitignore
