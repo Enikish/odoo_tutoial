@@ -13,3 +13,9 @@ class EstatePropertyType(models.Model):
         string='Name',
         required=True,
         )
+    
+    property_ids = fields.One2many(
+        string='Properties',
+        comodel_name='estate.property',
+        inverse_name='property_type',
+    )
