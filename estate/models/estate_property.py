@@ -2,17 +2,17 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools.float_utils import float_compare, float_is_zero
 
-GARDEN_ORIENTATION = [('north', 'North'),
-                      ('south', 'South'),
-                      ('east', 'East'),
-                      ('west', 'West'),
-                      ]
+GARDEN_ORIENTATION = [
+    ('north', 'North'),
+    ('south', 'South'),
+    ('east', 'East'),
+    ('west', 'West'),
+]
 
 STATE = [
     ('new', 'New'),
-    ('offer', 'Offer'),
-    ('received', 'Received'),
-    ('offer accepted', 'Offer Accepted'),
+    ('offer_received', 'Offer Received'),
+    ('offer_accepted', 'Offer Accepted'),
     ('sold', 'Sold'),
     ('canceled', 'Canceled'),
 ]
@@ -20,6 +20,7 @@ STATE = [
 class EstateProperty(models.Model):
     _name = 'estate.property'
     _description = 'Estate Property'
+    _order = 'id desc'
 
     name = fields.Char(
         string='Name', 
@@ -59,6 +60,7 @@ class EstateProperty(models.Model):
         string='State',
         selection=STATE,
         default='new',
+        readonly=False,
     )
     salesman = fields.Many2one(
         string='Salesman',
@@ -83,7 +85,6 @@ class EstateProperty(models.Model):
         string='Property Offer',
         comodel_name='estate.property.offer',
         inverse_name='property_id',
-        ondelete='cascade',
     )
 
     total_area = fields.Float(
@@ -126,10 +127,6 @@ class EstateProperty(models.Model):
         self.ensure_one()
         if self.garden_area < 0 or self.living_area < 0:
             raise UserError(_("Check your area option."))
-            return {'warning': {
-                'title':_('Warning'),
-                'message':('Please check your area option.')
-            }}
         
     def _check_property_state(self):
         return self.state
@@ -137,25 +134,15 @@ class EstateProperty(models.Model):
     def action_sold_property(self):
         self.ensure_one()
         if self.state == 'canceled':
-            return {'warning':{
-                    'title':_('Warning'),
-                    'message':('Canceled property can not be sold.')
-                }
-            }
-        self.state = 'sold'
+            raise UserError(_("Canceled"))
+        self.write({'state':'sold'})
         return True
     
     def action_cancel_property(self):
         self.ensure_one()
         if self.state == 'canceled':
             raise UserError(_('The property is canceled'))
-            return {
-                'warning':{
-                    'title':_('Warning'),
-                    'message':('The property is already canceled.')
-                }
-            }
-        self.state = 'canceled'
+        self.write({'state':'canceled'})
         return True
             
     @api.constrains('selling_price')
@@ -163,3 +150,14 @@ class EstateProperty(models.Model):
         for record in self:
             if float_compare(record.selling_price, record.expected_price * 0.9, precision_digits=2) < 0:
                 raise ValidationError(_("The selling price should be larger than 90% of the expected price."))
+            
+    @api.onchange('property_offer_ids')
+    def _onchange_offer_ids(self):
+        self.ensure_one()
+        if len(self.property_offer_ids) > 0:
+            self.state = 'offer_received'
+            print(self.property_offer_ids.mapped('status'))
+            if 'accepted' in self.property_offer_ids.mapped('status'):
+                self.state = 'offer_accepted'
+        elif len(self.property_offer_ids) == 0 and self.state not in ('sold', 'canceled'):
+            self.state = 'new'

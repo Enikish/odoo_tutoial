@@ -3,16 +3,17 @@
     <record id="estate_property_offer_action" model="ir.actions.act_window">
         <field name="name">Estate Property Offer</field>
         <field name="res_model">estate.property.offer</field>
+        <field name="domain">[('property_type_id','=',active_id)]</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_estate_offer" name="Offers" parent="estate_setting_menu"/>
+    <menuitem id="menu_estate_offer" name="Offers" parent="estate_others_menu" action="estate_property_offer_action"/>
 
     <record id="estate_property_offer_tree_view" model="ir.ui.view">
         <field name="name">estate.property.offer.tree.view</field>
         <field name="model">estate.property.offer</field>
         <field name="arch" type="xml">
-            <tree string="Offers">
+            <tree string="Offers" editable="bottom">
                 <field name="price"/>
                 <field name="partner_id"/>
                 <field name="status"/>
