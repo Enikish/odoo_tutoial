@@ -156,8 +156,14 @@ class EstateProperty(models.Model):
         self.ensure_one()
         if len(self.property_offer_ids) > 0:
             self.state = 'offer_received'
-            print(self.property_offer_ids.mapped('status'))
             if 'accepted' in self.property_offer_ids.mapped('status'):
                 self.state = 'offer_accepted'
         elif len(self.property_offer_ids) == 0 and self.state not in ('sold', 'canceled'):
             self.state = 'new'
+
+    @api.ondelete(at_uninstall=False)
+    def _unlink_property_not_new(self):
+        for record in self:
+            if record.state not in ('new', 'canceled'):
+                raise UserError(_('Can not delete the record with state%s' % record.state))
+            

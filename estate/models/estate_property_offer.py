@@ -1,5 +1,6 @@
-from odoo import models, api, fields
+from odoo import models, api, fields, _
 from datetime import timedelta
+from odoo.exceptions import UserError
 
 
 STATUS = [
@@ -67,3 +68,13 @@ class EstatePropertyOffer(models.Model):
         self.status = 'refused'
         self.property_id._onchange_offer_ids()
         return True
+
+    @api.model
+    def create(self, vals):
+        property_id = self.env['estate.property'].browse(vals['property_id'])
+
+        if vals['price'] < property_id.selling_price:
+            raise UserError(_('Offer price should not be less than current selling price'))
+        property_id.state = 'offer_received'
+
+        return super(EstatePropertyOffer, self).create(vals)
