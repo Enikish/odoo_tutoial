@@ -3,7 +3,7 @@
         <record id="estate_property_action" model="ir.actions.act_window">
             <field name="name">Estate Porperty</field>
             <field name="res_model">estate.property</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,kanban</field>
         </record>
 
         <menuitem id="estate_menu_root" name="Real Estate">
@@ -119,7 +119,34 @@
                     <field name="expected_price"/>
                     <field name="bedrooms"/>
                     <field name="facades"/>
+                    <field name="property_type"/>
                 </search>
+            </field>
+        </record>
+
+        <record id="estate_property_kanban_view" model="ir.ui.view">
+            <field name="name">estate.property.kanban.view</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="property_type" records_draggable="false">
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global">
+                                <div>
+                                    <field name="name"/>
+                                    <br/>
+                                    expected price:&#32;<field name="expected_price"/>
+                                </div>
+                                <div t-if="record.best_price > '0'">
+                                best price:&#32;<field name="best_price"/>
+                                </div>
+                                <div class="oe_kanban_bottom_right float-end">
+                                    <field name="property_tags" widget="many2many_tags" options="{'color_field':'color'}"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
             </field>
         </record>
 </odoo>
