@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <templates xml:space="preserve">
+    <t t-name="awesome_owl.card">
+        <div class="card-body">
+            <h5 class="card-title" t-esc="props.title"></h5>
+            <p class="card-text" t-esc="props.content">
+            </p>
+        </div>
+    </t>
+</templates> -->
+<templates xml:space="preserve">
+    <t t-name="awesome_owl.card">
+        <t t-out="value1"/>
+        <t t-out="value2"/>
+        <h5 class="card-title" t-esc="props.title"></h5>
+        </t>
+</templates>

@@ -3,11 +3,15 @@
 import { browser } from "@web/core/browser/browser";
 import { mount, whenReady } from "@odoo/owl";
 import { Playground } from "./playground";
+import { Counter } from "./counter/counter";
 import { templates } from "@web/core/assets";
+import { Card } from "./card/card";
 
 // Mount the Playground component when the document.body is ready
 whenReady( () => {
     mount(Playground, document.body, { templates, dev: true, name: "Owl Tutorial" });
+    // mount(Counter, document.body, {templates, dev: true, name: "Owl Counter"});
+    // mount(Card, document.body, {templates, dev: true, name: "Owl Card"});
 });
 
 
