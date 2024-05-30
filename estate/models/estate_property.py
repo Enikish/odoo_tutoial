@@ -196,13 +196,11 @@ class EstateProperty(models.Model):
                     'message':('The property is already canceled.')
                 }
             }
-        # elif self.state == 'sold':
-        #     return {
-        #         'warning':{
-        #             'title':_('Warning'),
-        #             'message':('The property is already sold.')
-        #         }
-        #     }
         self.state = 'canceled'
         return True
             
+    @api.constrains('selling_price')
+    def _check_selling_price(self):
+        for record in self:
+            if float_compare(record.selling_price, record.expected_price * 0.9, precision_digits=2) < 0:
+                raise ValidationError(_("The selling price should be larger than 90% of the expected price."))
