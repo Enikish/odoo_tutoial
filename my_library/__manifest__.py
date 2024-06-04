@@ -6,7 +6,7 @@
     'installable': 'true',
     'data': [],
     'depends': ['base'],
-    'data': [],
+    'data': ['views/library_book.xml'],
     'license': 'LGPL-3',
 
 }
