@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_sale_order_form_extend" model="ir.ui.view">
+        <field name="name">sale.order.form.extend</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='other_information']" position="after">
+                <page name="group_members" string="团其他客户">
+                    <field name="info_lines" widget="section_and_note_one2many" mode="tree">
+                        <tree editable="bottom">
+                            <field name="cus_info" string="客户"/>
+                            <field name="cus_id"/>
+                            <field name="cus_age"/>
+                            <field name="cus_gender"/>
+                            <field name="cus_phone"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+
+            <xpath expr="//sheet/group[@name='sale_header']/group/field[@name='partner_id']" position="after">
+                <field name="amount_cost" widget="monetary"/>
+                <field name="benefit" widget="monetary"/>
+            </xpath>
+
+            <xpath expr="//notebook/page[@name='order_lines']/field/tree/field[@name='price_subtotal']" position="before">
+                <field name="cost"/>
+            </xpath>
+            <xpath expr="//notebook/page[@name='order_lines']/field/tree/field[@name='price_subtotal']" position="after">
+                <field name="benefit"/>
+            </xpath>
+
+            <xpath expr="//notebook/page[@name='order_lines']/field/tree/field[@name='tax_id']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[@name='order_lines']/field/tree/field[@name='customer_lead']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+
+            <xpath expr="//notebook/page[@name='other_information']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[@name='customer_signature']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
