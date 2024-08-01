@@ -14,8 +14,8 @@ class EstateProperty(models.Model):
             'invoice_line_ids': [
                 Command.create({
                     'name': 'VAT',
-                    'quantity': 1,  
-                    'price_unit': self.selling_price * 0.06
+                    'quantity': 1,
+                    'price_unit': self.selling_price * 0.06,
                 }),
                 Command.create({
                     'name': 'Extra Fee',

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_partner_tree_extend" model="ir.ui.view">
+        <field name="name">res.partner.tree.extend</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <field name="email" position="before">
+                <field name="id_card"/>
+                <field name="age"/>
+                <field name="gender"/>
+            </field>
+
+            <field name="email" position="attributes">
+                <attribute name="column_invisible">True</attribute>
+            </field>
+            <field name="user_id" position="attributes">
+                <attribute name="column_invisible">True</attribute>
+            </field>
+            <field name="city" position="attributes">
+                <attribute name="column_invisible">True</attribute>
+            </field>
+            <field name="state_id" position="attributes">
+                <attribute name="column_invisible">True</attribute>
+            </field>
+            <field name="country_id" position="attributes">
+                <attribute name="column_invisible">True</attribute>
+            </field>
+            <field name="vat" position="attributes">
+                <attribute name="column_invisible">True</attribute>
+            </field>
+            <field name="category_id" position="attributes">
+                <attribute name="column_invisible">True</attribute>
+            </field>
+            <field name="company_id" position="attributes">
+                <attribute name="column_invisible">True</attribute>
+            </field>
+            
+        </field>
+    </record>
+
+    <record id="view_partner_mail_list_extend" model="ir.ui.view">
+        <field name="name">res.partner.mail.list.extend</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="mail.res_partner_view_tree_inherit_mail"/>
+        <field name="arch" type="xml">
+            <field name="activity_ids" position="replace">
+            </field>
+        </field>
+    </record>
+
+    <record id="view_partner_form_extend" model="ir.ui.view">
+        <field name="name">res.partner.form.extend</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="vat" position="after">
+                <field name="id_card" required="is_company == False" invisible="is_company"/>
+                <field name="age" invisible="is_company"/>
+                <field name="gender" invisible="is_company"/>
+            </field>
+            <field name="vat" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="function" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="email" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="website" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="title" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="lang" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="category_id" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="mobile" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="company_id" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="company_name" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="street" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="street2" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="city" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="state_id" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="country_id" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="country_code" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="zip" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <xpath expr="//notebook" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+        </field>
+    </record>
+    
+    <record id="contacts.action_contacts" model="ir.actions.act_window">
+        <field name="name">Contacts</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,kanban,form</field>
+    </record>
+
+    <record id="contacts.action_contacts_view_kanban" model="ir.actions.act_window.view">
+        <field eval="4" name="sequence"/>
+    </record>
+
+
+    
+</odoo>
