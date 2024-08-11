@@ -14,11 +14,23 @@
                 <group>
                     <group>
                         <field name="name"/>
+                        <field name="short_name"/>
                         <field name="author_ids" widget="many2many_tags"/>
+                        <field name="pages"/>
+                        <field name="note"/>
+                    </group>
+                    <group>
+                        <field name="cover" widget="image" class="oe_avatar"/>
+                        <field name="state"/>
+                        <field name="date_release"/>
+                        <field name="date_updated"/>
+                        <field name="reader_rating"/>
+                        <field name="cost_price"/>
+                        <field name="retail_price"/>
                     </group>
                 </group>
                 <group>
-                    <field name="date_release"/>
+                    <field name="description"/>
                 </group>
             </form>
         </field>
@@ -30,12 +42,28 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name"/>
+                <field name="short_name"/>
+                <field name="author_ids" widget="many2many_tags"/>
                 <field name="date_release"/>
+                <field name="state"/>
+                <field name="retail_price"/>
             </tree>
         </field>
     </record>
+
+    <record id="library_book_view_search" model="ir.ui.view">
+        <field name="name">Library Book Search</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="author_ids"/>
+                <filter string="No Authors" name="without_author" domain="[('author_ids','=',False)]" />
+            </search>
+        </field>
+    </record>
     
-    <menuitem name="My Library" id="library_base_menu"/>
+    <menuitem name="My Library" id="library_base_menu" web_icon="fa-book"/>
     <menuitem name="Books" id="library_book_menu" parent="library_base_menu" action="library_book_action"/>
     
 </odoo>

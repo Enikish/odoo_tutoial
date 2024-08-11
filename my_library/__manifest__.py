@@ -5,7 +5,12 @@
     'application': 'true',
     'installable': 'true',
     'depends': ['base'],
-    'data': ['views/library_book.xml'],
+    'data': [
+        'security/groups.xml',
+        'security/ir.model.access.csv',
+        'views/library_book_category.xml',
+        'views/library_book.xml',
+             ],
     'license': 'LGPL-3',
 
 }
