@@ -11,6 +11,7 @@
         <field name="model">library.book</field>
         <field name="arch" type="xml">
             <form>
+                <field name="currency_id" invisible="True"/>
                 <group>
                     <group>
                         <field name="name"/>
@@ -18,11 +19,15 @@
                         <field name="author_ids" widget="many2many_tags"/>
                         <field name="pages"/>
                         <field name="note"/>
+                        <field name="publisher_id"/>
+                        <field name="publisher_city"/>
+                        <field name="ref_doc_id"/>
                     </group>
                     <group>
                         <field name="cover" widget="image" class="oe_avatar"/>
                         <field name="state"/>
                         <field name="date_release"/>
+                        <field name="age_days"/>
                         <field name="date_updated"/>
                         <field name="reader_rating"/>
                         <field name="cost_price"/>
@@ -41,12 +46,13 @@
         <field name="model">library.book</field>
         <field name="arch" type="xml">
             <tree>
+                <field name="currency_id" column_invisible="True"/>
                 <field name="name"/>
                 <field name="short_name"/>
                 <field name="author_ids" widget="many2many_tags"/>
                 <field name="date_release"/>
                 <field name="state"/>
-                <field name="retail_price"/>
+                <field name="retail_price" options="{'currency_field': 'currency_id'}"/>
             </tree>
         </field>
     </record>
@@ -58,6 +64,7 @@
             <search>
                 <field name="name"/>
                 <field name="author_ids"/>
+                <field name="age_days"/>
                 <filter string="No Authors" name="without_author" domain="[('author_ids','=',False)]" />
             </search>
         </field>
