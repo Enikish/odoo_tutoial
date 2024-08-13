@@ -1,12 +1,12 @@
 from odoo import fields, models, _, api
-from odoo.exceptions import ValidationError
-from datetime import timedelta
+from odoo.exceptions import ValidationError, UserError
 from datetime import timedelta
 
 
 _STATE = [
     ('draft', 'Not Available'),
     ('available', 'Available'),
+    ('borrowed', 'Borrowed'),
     ('lost', 'Lost'),
 ]
 
@@ -15,6 +15,8 @@ class LibraryBook(models.Model):
     _description = 'Library Book'
     _order = 'date_release desc, name'
     _rec_name = 'name'
+
+    _inherit = ['base.archive']
 
     _sql_constraints = [
         ('name_uniq', 'UNIQUE(name)', 'Book title must be unique.'),
@@ -133,4 +135,39 @@ class LibraryBook(models.Model):
     def _referencable_models(self):
         models = self.env['ir.model'].search([('field_id.name','=','message_ids')])
         return [(model.model, model.name) for model in models]
+    
+    @api.model
+    def is_allowed_transition(self, old_state, new_state):
+        allowed = [('draft', 'available'),
+                   ('available', 'borrowed'),
+                   ('borrowed', 'available'),
+                   ('available', 'lost'),
+                   ('borrowed', 'lost'),
+                   ('lost', 'available')]
+        return (old_state, new_state) in allowed
+    
+    def change_state(self, new_state):
+        for book in self:
+            if book.is_allowed_transition(book.state, new_state):
+                book.state = new_state
+            else:
+                msg = _('Moving from %s to %s is not allowed' % (book.state, new_state))
+                raise UserError(msg)
+    
+    def make_available(self):
+        self.change_state('available')
+
+    def make_borrowed(self):
+        self.change_state('borrowed')
+
+    def make_lost(self):
+        self.change_state('lost')
+
+    def get_all_library_members(self):
+        library_member_model = self.env['library.member']
+        all_members = library_member_model.search([])
+        print('All members', all_members)
+        return True
+
+    
     

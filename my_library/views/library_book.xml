@@ -12,6 +12,13 @@
         <field name="arch" type="xml">
             <form>
                 <field name="currency_id" invisible="True"/>
+                <header>
+                    <button name="make_available" string="Make Available" type="object" invisible="state == 'available'"/>
+                    <button name="make_borrowed" string="Make Borrowed" type="object" invisible="state == 'borrowed'"/>
+                    <button name="make_lost" string="Make Lost" type="object" invisible="state == 'lost'"/>
+                    <field name="state" widget="statusbar"/>
+                    <button name="get_all_library_members" string="Log members" type="object"/>
+                </header>
                 <group>
                     <group>
                         <field name="name"/>
@@ -25,7 +32,6 @@
                     </group>
                     <group>
                         <field name="cover" widget="image" class="oe_avatar"/>
-                        <field name="state"/>
                         <field name="date_release"/>
                         <field name="age_days"/>
                         <field name="date_updated"/>
