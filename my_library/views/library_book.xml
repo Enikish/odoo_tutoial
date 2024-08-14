@@ -16,16 +16,20 @@
                     <button name="make_available" string="Make Available" type="object" invisible="state == 'available'"/>
                     <button name="make_borrowed" string="Make Borrowed" type="object" invisible="state == 'borrowed'"/>
                     <button name="make_lost" string="Make Lost" type="object" invisible="state == 'lost'"/>
-                    <field name="state" widget="statusbar"/>
                     <button name="get_all_library_members" string="Log members" type="object"/>
+                    <button name="change_release_date" string="Update Date" type="object"/>
+                    <button name="find_book" string="Find Book" type="object"/>
+                    <button name="log_avg_cost" string="Print Average Cost" type="object"/>
+                    <field name="state" widget="statusbar"/>
                 </header>
                 <group>
                     <group>
+                        <field name="old_edition"/>
                         <field name="name"/>
                         <field name="short_name"/>
                         <field name="author_ids" widget="many2many_tags"/>
+                        <field name="category_id"/>
                         <field name="pages"/>
-                        <field name="note"/>
                         <field name="publisher_id"/>
                         <field name="publisher_city"/>
                         <field name="ref_doc_id"/>
@@ -38,6 +42,8 @@
                         <field name="reader_rating"/>
                         <field name="cost_price"/>
                         <field name="retail_price"/>
+                        <field name="manager_remarks"/>
+                        <field name="note"/>
                     </group>
                 </group>
                 <group>

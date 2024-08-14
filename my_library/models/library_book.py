@@ -22,15 +22,43 @@ class LibraryBook(models.Model):
         ('name_uniq', 'UNIQUE(name)', 'Book title must be unique.'),
         ('positive_page', 'CHECK(pages>0)', 'Number of pages must be positive.')
     ]
+
+    def name_get(self):
+        result = []
+        for book in self:
+            authors = book.author_ids.mapped('name')
+            name = '%s(%s)' % (book.name, ','.join(authors))
+            result.append((book.id, name))
+            return result
+        
+    @api.model
+    def _name_search(self, name='', domain=None, operator='ilike', 
+                     limit=100, order=None):
+        domain = [] if domain is None else domain.copy()
+        if not ( name == '' and operator == 'ilike'):
+            domain += ['|', 
+                        '|',
+                        ('name', operator, name),
+                        ('isbn', operator, name),
+                     ('author_ids.name', operator, name)
+                     ]
+            
+            return super(LibraryBook, self)._name_search(
+                name=name, domain=domain, operator=operator, 
+                limit=limit, order=order
+            )
+    old_edition = fields.Many2one(comodel_name='library.book', string='Old Edition')
+
     
     name = fields.Char(string='Title', required=True)
     short_name = fields.Char(string='Short Title', required=True)
     description = fields.Html(string='Description')
     cover = fields.Binary(string='Book Cover')
     out_of_print = fields.Boolean(string='Out of Print?')
-    date_release = fields.Date(string='Release Date')
+    date_release = fields.Date(string='Release Date', default=lambda self: fields.Date.today())
     date_updated = fields.Datetime(string='Last Updated')
     pages = fields.Integer(string='Number of Pages')
+    isbn = fields.Char('ISBN')
     reader_rating = fields.Float(string='Reader Rating', digits=(14, 4))
     author_ids = fields.Many2many(
         comodel_name='res.partner',
@@ -41,6 +69,7 @@ class LibraryBook(models.Model):
     state = fields.Selection(
         string='State',
         selection=_STATE,
+        default='available',
     )
 
     currency_id = fields.Many2one(
@@ -169,5 +198,64 @@ class LibraryBook(models.Model):
         print('All members', all_members)
         return True
 
+    def change_release_date(self):
+        self.ensure_one()
+        self.date_release = fields.Date.today()
+
+    def find_book(self):
+        domain = [
+            '|',
+            '&',('name', 'ilike', '300'),
+            ('category_id.name', 'ilike', 'Fic'),
+            '&',('name', 'ilike', 'Book Name 2'),
+            ('category_id.name', 'ilike', 'Category Name 2')
+        ]
+
+        books = self.search(domain=domain)
+
+        print(books)
+
+    @api.model
+    def books_with_multiple_authors(self, all_books):
+        def predicate(book):
+            if len(book.author_ids) > 1:
+                return True
+            return False
+        return all_books.filter(predicate)
     
+    @api.model
+    def get_author_names(self, books: models.Model):
+        return books.mapped('author_ids.name')
+    
+    @api.model
+    def sort_books_by_date(self, books: models.Model):
+        return books.sorted(key='release_date', reverse=True)
+    
+    manager_remarks = fields.Text(string='Manager Remarks')
+
+    @api.model
+    def create(self, values):
+        if not self.user_has_groups('my_library.group_librarian'):
+            if 'manager_remarks' in values:
+                raise UserError(_('You are not allowed to modify \'manager_remarks\' '))
+        return super(LibraryBook, self).create(values)
+    
+    def write(self, vals):
+        if not self.user_has_groups('my_library.group_librarian'):
+            if 'manager_remarks' in vals:
+                raise UserError(_('You are not allowed to modify \'manager_remarks\' '))
+        return super().write(vals)
+    
+    @api.model
+    def _get_average_cost(self):
+        grouped_result = self.read_group(
+            [('cost_price', '!=', False),], # domain
+            ['category_id', 'cost_price:avg'], # field to access
+            ['category_id'] # group_by
+            )
+        return grouped_result
+    
+    def log_avg_cost(self):
+        print(self._get_average_cost())
+
     

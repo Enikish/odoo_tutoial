@@ -11,6 +11,7 @@
         'views/library_book_category.xml',
         'views/library_book.xml',
         'views/library_member.xml',
+        'data/data.xml',
              ],
     'license': 'LGPL-3',
 
