@@ -190,7 +190,10 @@ class LibraryBook(models.Model):
         self.change_state('borrowed')
 
     def make_lost(self):
+        self.ensure_one()
         self.change_state('lost')
+        if not self.env.context.get('avoid_activate'):
+            self.active = False
 
     def get_all_library_members(self):
         library_member_model = self.env['library.member']
@@ -258,4 +261,20 @@ class LibraryBook(models.Model):
     def log_avg_cost(self):
         print(self._get_average_cost())
 
-    
+    @api.model
+    def _update_book_price(self):
+        all_books = self.search([])
+        for book in all_books:
+            book.cost_price += 10
+
+    def book_rent(self):
+        self.ensure_one()
+        if self.state != 'available':
+            raise UserError(_('Book is not available for renting.'))
+        rent_as_superuser = self.env['library.book.rent'].sudo()
+        rent_as_superuser.create({
+            'book_id': self.id,
+            'borrower_id': self.env.user.partner_id.id,
+        })
+        self.sudo().state = 'borrowed'
+            

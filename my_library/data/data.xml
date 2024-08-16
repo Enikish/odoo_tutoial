@@ -7,4 +7,5 @@
     <record id="base.main_company" model="res.company">
         <field name="name">Packt publishing</field>
     </record>
+    <function model="library.book" name="_update_book_price"/>
 </odoo>

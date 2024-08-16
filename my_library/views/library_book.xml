@@ -13,14 +13,30 @@
             <form>
                 <field name="currency_id" invisible="True"/>
                 <header>
-                    <button name="make_available" string="Make Available" type="object" invisible="state == 'available'"/>
-                    <button name="make_borrowed" string="Make Borrowed" type="object" invisible="state == 'borrowed'"/>
-                    <button name="make_lost" string="Make Lost" type="object" invisible="state == 'lost'"/>
-                    <button name="get_all_library_members" string="Log members" type="object"/>
-                    <button name="change_release_date" string="Update Date" type="object"/>
-                    <button name="find_book" string="Find Book" type="object"/>
-                    <button name="log_avg_cost" string="Print Average Cost" type="object"/>
+                    <button name="make_available" 
+                        string="Make Available" 
+                        type="object" 
+                        invisible="state == 'available'"
+                        groups="my_library.group_librarian"/>
+                    <button name="make_borrowed" 
+                        string="Make Borrowed" 
+                        type="object" 
+                        invisible="state == 'borrowed'"
+                        groups="my_library.group_librarian"/>
+                    <button name="make_lost" 
+                        string="Make Lost" 
+                        type="object" 
+                        invisible="state == 'lost'"
+                        groups="my_library.group_librarian"/>
+
+                    <button name="book_rent" string="Rent this book" type="object" class="btn-primary"/>
+
                     <field name="state" widget="statusbar"/>
+
+                    <button name="get_all_library_members" string="Log members" type="object" invisible="True"/>
+                    <button name="change_release_date" string="Update Date" type="object" invisible="True"/>
+                    <button name="find_book" string="Find Book" type="object" invisible="True"/>
+                    <button name="log_avg_cost" string="Print Average Cost" type="object" invisible="True"/>
                 </header>
                 <group>
                     <group>
