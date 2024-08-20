@@ -1,7 +1,11 @@
 from odoo import fields, models, _, api
 from odoo.exceptions import ValidationError, UserError
 from datetime import timedelta
+import logging
+from odoo.tests.common import Form
 
+
+_logger = logging.getLogger(__name__)
 
 _STATE = [
     ('draft', 'Not Available'),
@@ -184,7 +188,9 @@ class LibraryBook(models.Model):
                 raise UserError(msg)
     
     def make_available(self):
+        self.ensure_one()
         self.change_state('available')
+        self.active = True
 
     def make_borrowed(self):
         self.change_state('borrowed')
@@ -278,3 +284,27 @@ class LibraryBook(models.Model):
         })
         self.sudo().state = 'borrowed'
             
+    def average_book_occupation(self):
+        self.flush_model()
+        sql_query = """
+                    SELECT
+                    lb.name,
+                    avg((EXTRACT(epoch from age(return_date,rent_date))/86400))::int
+                    FROM
+                    library_book_rent AS lbr
+                    JOIN
+                    library_book as lb ON lb.id = lbr.book_id
+                    WHERE lbr.state = 'returned'
+                    GROUP BY lb.name;
+                    """
+        self.env.cr.execute(sql_query)
+        result = self.env.cr.fetchall()
+        _logger.info('Average book occupation: %s', result)
+    
+    def return_this_book(self):
+        self.ensure_one()
+        wizard = self.env['library.return.wizard']
+        with Form(wizard) as return_form:
+            return_form.borrower_id = self.env.user.partner_id
+            record = return_form.save()
+            record.books_returns()

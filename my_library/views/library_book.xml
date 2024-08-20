@@ -29,7 +29,23 @@
                         invisible="state == 'lost'"
                         groups="my_library.group_librarian"/>
 
-                    <button name="book_rent" string="Rent this book" type="object" class="btn-primary"/>
+                    <button name="book_rent" 
+                        string="Rent this book" 
+                        type="object" 
+                        class="btn-primary"
+                        invisible="state == 'borrowed'"
+                        />
+                    
+                    <button name="return_this_book"
+                        string="Return this book"
+                        type="object"
+                        class="btn-primary"
+                        invisible="state != 'borrowed'"
+                        />
+                        
+                    <button name="average_book_occupation" 
+                        string="Log Average Occ" 
+                        type="object"/>
 
                     <field name="state" widget="statusbar"/>
 
@@ -94,11 +110,13 @@
                 <field name="author_ids"/>
                 <field name="age_days"/>
                 <filter string="No Authors" name="without_author" domain="[('author_ids','=',False)]" />
+                <filter string="All Books in Record" name="all_books_in_record" domain="['|',('active', '=', True),('active', '=', False)]"/>
             </search>
         </field>
     </record>
     
     <menuitem name="My Library" id="library_base_menu" web_icon="fa-book"/>
     <menuitem name="Books" id="library_book_menu" parent="library_base_menu" action="library_book_action"/>
+    <menuitem name="Rent And Return" id="library_actions_menu" parent="library_base_menu"/>
     
 </odoo>

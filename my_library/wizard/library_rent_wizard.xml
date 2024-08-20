@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- <act_window id="action_wizard_rent_books"
+        name="Give on Rent"
+        res_model="library.rent.wizard" 
+        view_mode="form"
+        target="new"/> -->
+
+    <record id="action_wizard_rent_books" model="ir.actions.act_window">
+        <field name="name">Give on Rent</field>
+        <field name="res_model">library.rent.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="my_library.model_library_book"/>
+    </record>
+
+    <record id="library_rent_wizard_form" model="ir.ui.view">
+        <field name="name">Library Book Rent Wizard Form View</field>
+        <field name="model">library.rent.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Borrow books">
+                <sheet>
+                    <group>
+                        <field name="borrower_id"/>
+                        <field name="expected_return_date"/>
+                    </group>
+                    <group>
+                        <field name="book_ids"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Rent" type="object" name="add_book_rents" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+    <menuitem name="Book Rents" id="menu_library_rent_wizard" parent="library_actions_menu" action="action_wizard_rent_books"/>
+
+    
+</odoo>
