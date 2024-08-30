@@ -19,6 +19,13 @@
                 </page>
             </xpath>
 
+            <xpath expr="//header/button[@name='action_draft']" position="after">
+                <button name="%(action_order_other_customer)d"
+                        string="添加其他团客户"
+                        type="action"        
+                />
+            </xpath>
+
             <xpath expr="//sheet/group[@name='sale_header']/group/field[@name='partner_id']" position="after">
                 <field name="amount_cost" widget="monetary"/>
                 <field name="benefit" widget="monetary"/>

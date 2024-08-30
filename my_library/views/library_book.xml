@@ -33,6 +33,7 @@
                         string="Rent this book" 
                         type="object" 
                         class="btn-primary"
+                        groups="my_library.group_self_borrow"
                         invisible="state == 'borrowed'"
                         />
                     
@@ -40,6 +41,7 @@
                         string="Return this book"
                         type="object"
                         class="btn-primary"
+                        groups="my_library.group_self_borrow"
                         invisible="state != 'borrowed'"
                         />
                         

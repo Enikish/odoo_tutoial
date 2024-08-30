@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_library_book_rent_statistics" model="ir.actions.act_window">
+        <field name="name">Action Library Book Rent Statistics</field>
+        <field name="res_model">library.book.rent.statistics</field>
+        <field name="view_mode">tree,form,pivot</field>
+    </record>
+
+    <record id="form_library_book_rent_statistics" model="ir.ui.view">
+        <field name="name">Form Library Book Rent Statistics</field>
+        <field name="model">library.book.rent.statistics</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="book_id" string="Book"/>
+                        <field name="rent_count" string="Rents"/>
+                        <field name="average_occupation" string="Average Occupation"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="tree_library_book_rent_statistics" model="ir.ui.view">
+        <field name="name">Tree Library Book Rent Statistics</field>
+        <field name="model">library.book.rent.statistics</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="book_id"/>
+                <field name="rent_count"/>
+                <field name="average_occupation"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pivot_library_book_rent_statistics" model="ir.ui.view">
+        <field name="name">Pivot Library Book Rent Statistics</field>
+        <field name="model">library.book.rent.statistics</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="book_id" type="row"/>
+                <field name="rent_count" type="measure"/>
+                <field name="average_occupation" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <menuitem id="menu_library_book_rent_statistics" name="Rent Statistics" parent="library_base_menu" action="action_library_book_rent_statistics"/>
+    
+</odoo>

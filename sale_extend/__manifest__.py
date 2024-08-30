@@ -21,6 +21,7 @@
     'data': [
         'security/ir.model.access.csv',
         'views/sale_order.xml',
+        'wizard/order_other_customer.xml',
     ],
     # only loaded in demonstration mode
     'license': 'LGPL-3',

@@ -5,10 +5,10 @@ from odoo.exceptions import UserError, ValidationError
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    info_lines = fields.One2many(comodel_name='cus.info.line', 
-                                    string='Other members', 
-                                    inverse_name='trip_group',
-                                    )
+    info_lines = fields.One2many(comodel_name='cus.info.line',
+                                 string='Other members',
+                                 inverse_name='trip_group',
+                                 )
     
     currency_id = fields.Many2one(comodel_name='res.currency', 
                                   string='Currency', 

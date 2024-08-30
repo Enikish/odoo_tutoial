@@ -14,10 +14,13 @@
         'views/library_book_rent.xml',
         'wizard/library_rent_wizard.xml',
         'wizard/library_return_wizard.xml',
+        'views/library_book_rent_statistics.xml',
+        'views/res_config_settings.xml',
              ],
     'license': 'LGPL-3',
     'demo':[
         'data/data.xml',
-    ]
+    ],
+    'post_init_hook': 'add_book_hook',
 
 }

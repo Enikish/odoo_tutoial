@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_cus_info_line,access_cus_info_line,model_cus_info_line,base.group_user,1,1,1,1
+acl_order_other_customer,acl_order_other_customer,model_order_other_customer,base.group_user,1,1,1,1
