@@ -4,7 +4,7 @@
     'version': '17.0.0.1',
     'application': 'true',
     'installable': 'true',
-    'depends': ['base', 'product'],
+    'depends': ['base', 'product', 'account', 'project'],
     'data': [
         'security/groups.xml',
         'security/ir.model.access.csv',
@@ -16,6 +16,8 @@
         'wizard/library_return_wizard.xml',
         'views/library_book_rent_statistics.xml',
         'views/res_config_settings.xml',
+        'views/res_partner.xml',
+        'views/project_task.xml',
              ],
     'license': 'LGPL-3',
     'demo':[

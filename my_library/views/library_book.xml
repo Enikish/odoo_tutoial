@@ -111,8 +111,13 @@
                 <field name="name"/>
                 <field name="author_ids"/>
                 <field name="age_days"/>
+                <field name="publisher_id"/>
                 <filter string="No Authors" name="without_author" domain="[('author_ids','=',False)]" />
                 <filter string="All Books in Record" name="all_books_in_record" domain="['|',('active', '=', True),('active', '=', False)]"/>
+                <searchpanel>
+                    <field name="publisher_id" icon="fa fa-users" string="发行人"/>
+                    <field name="category_id" icon="fa fa-list" select="multi" string="类别"/>
+                </searchpanel>
             </search>
         </field>
     </record>
