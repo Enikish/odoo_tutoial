@@ -19,7 +19,7 @@ class LibraryBook(models.Model):
     _description = 'Library Book'
     _order = 'date_release desc, name'
     _rec_name = 'name'
-
+    _track_duration_field = 'state'
     _inherit = ['base.archive']
 
     _sql_constraints = [

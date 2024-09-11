@@ -24,5 +24,6 @@
         'data/data.xml',
     ],
     'post_init_hook': 'add_book_hook',
+    'category': 'Library',
 
 }

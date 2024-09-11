@@ -3,7 +3,7 @@
     <record id="library_book_action" model="ir.actions.act_window">
         <field name="name">Library Books</field>
         <field name="res_model">library.book</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,graph</field>
     </record>
 
     <record id="library_book_view_form" model="ir.ui.view">
@@ -49,7 +49,7 @@
                         string="Log Average Occ" 
                         type="object"/>
 
-                    <field name="state" widget="statusbar"/>
+                    <field name="state" widget="statusbar" options="{'clickable': '1',}"/>
 
                     <button name="get_all_library_members" string="Log members" type="object" invisible="True"/>
                     <button name="change_release_date" string="Update Date" type="object" invisible="True"/>
@@ -119,6 +119,17 @@
                     <field name="category_id" icon="fa fa-list" select="multi" string="类别"/>
                 </searchpanel>
             </search>
+        </field>
+    </record>
+
+    <record id="library_book_view_graph" model="ir.ui.view">
+        <field name="name">Library Book Graph</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <graph type="line">
+                <field name="name"/>
+                <field name="pages"/>
+            </graph>
         </field>
     </record>
     

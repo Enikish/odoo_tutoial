@@ -21,8 +21,39 @@
     <record id='action_my_tasks' model='ir.actions.act_window'>
         <field name="name">My tasks</field>
         <field name="res_model">project.task</field>
-        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_mode">kanban,tree,form,calendar,graph,pivot</field>
         <field name="context">{'kanban_view_ref': 'my_library.kanban_tasks'}</field>
+    </record>
+
+    <record id="view_project_task_calendar" model="ir.ui.view">
+        <field name="model">project.task</field>
+        <field name="arch" type="xml">
+            <calendar date_start="date_assign" date_stop="date_end" color="project_id" >
+                <field name="name"/>
+                <field name="user_ids"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_project_tasks_graph" model="ir.ui.view">
+        <field name="model">project.task</field>
+        <field name="arch" type="xml">
+            <graph type="bar">
+                <field name="user_ids"/>
+                <field name="stage_id"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_project_tasks_pivot" model="ir.ui.view"> 
+        <field name="model">project.task</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="user_ids" type="row"/>
+                <field name="project_id" type="col"/>
+                <field name="stage_id" type="col"/>
+            </pivot>
+        </field>
     </record>
 
     <menuitem id="menu_my_tasks" parent="menu_custom_top_level" action="action_my_tasks" sequence="10" />
