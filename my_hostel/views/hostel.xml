@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_hostel_hostel" model="ir.actions.act_window">
+        <field name="name">Hostel Action</field>
+        <field name="res_model">hostel.hostel</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="hostel_hostel_tree_view" model="ir.ui.view">
+        <field name="name">Hostel Tree View</field>
+        <field name="model">hostel.hostel</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="hostel_code"/>
+                <field name="street"/>
+            </tree>
+        </field>
+    </record>
+
+    <menuitem name="Hostel" id="hostel_base_menu" web_icon="fa-home"/>
+    <menuitem name="Hostel Menu" id="hostel_menu" parent="hostel_base_menu" action="action_hostel_hostel"/>
+</odoo>

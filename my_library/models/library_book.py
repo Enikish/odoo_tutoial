@@ -308,3 +308,6 @@ class LibraryBook(models.Model):
             return_form.borrower_id = self.env.user.partner_id
             record = return_form.save()
             record.books_returns()
+
+    is_public = fields.Boolean(groups='my_library.group_librarian')
+    private_notes = fields.Text(groups='my_library.group_librarian')

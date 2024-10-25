@@ -7,6 +7,7 @@
     'depends': ['base', 'product', 'account', 'project'],
     'data': [
         'security/groups.xml',
+        'security/security_rules.xml',
         'security/ir.model.access.csv',
         'views/library_book_category.xml',
         'views/library_book.xml',
